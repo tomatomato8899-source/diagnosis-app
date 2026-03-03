@@ -54,7 +54,70 @@ dream_questions = [
     {"q": "夢の印象は？",
      "choices": ["強く覚えている", "少し覚えている", "ほとんど覚えていない", "断片的に覚えている"]},
 ]
+def show_pref_result():
+    answers = st.session_state.answers
 
+    score = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0}
+
+    if answers[0] == "都会":
+        score["A"] += 2
+    elif answers[0] == "自然":
+        score["B"] += 2
+    elif answers[0] == "歴史":
+        score["C"] += 2
+    elif answers[0] == "海":
+        score["D"] += 2
+
+    if answers[1] == "寒いのが好き":
+        score["B"] += 1
+    elif answers[1] == "暑いのが好き":
+        score["D"] += 1
+
+    if answers[2] == "海鮮":
+        score["B"] += 1
+        score["D"] += 1
+    elif answers[2] == "麺類":
+        score["A"] += 1
+        score["C"] += 1
+
+    if answers[3] == "便利な街":
+        score["A"] += 1
+    elif answers[3] == "静かな田舎":
+        score["B"] += 1
+
+    if answers[4] == "明るい":
+        score["D"] += 1
+    elif answers[4] == "落ち着いてる":
+        score["C"] += 1
+
+    pref_groups = {
+        "A": ["東京都","神奈川県","千葉県","埼玉県","大阪府","愛知県","兵庫県","福岡県"],
+        "B": ["北海道","青森県","岩手県","秋田県","山形県","長野県","熊本県","宮崎県","鹿児島県"],
+        "C": ["京都府","奈良県","石川県","富山県","福井県","広島県","岡山県","香川県"],
+        "D": ["沖縄県","高知県","愛媛県","長崎県","佐賀県","大分県","和歌山県"],
+        "E": ["新潟県","群馬県","栃木県","茨城県","三重県","岐阜県","滋賀県","鳥取県","島根県"]
+    }
+
+    result_type = max(score, key=score.get)
+    result_list = pref_groups[result_type]
+    result_text = "、".join(result_list)
+
+    st.markdown(f"""
+### ✨ あなたに合う都道府県 ✨
+
+あなたにぴったりの地域は…
+
+## 【{result_text}】
+
+旅行や移住の参考にしてみてね🌸
+""")
+
+if st.session_state.page == "result":
+    st.title("✨ あなたの結果 ✨")
+
+    if st.session_state.current_theme == "pref":
+        show_pref_result()
+        
 # --- メニュー画面 ---
 if st.session_state.page == "menu":
     st.title("✨ 診断アプリ ✨")
@@ -186,3 +249,4 @@ if st.session_state.page == "fortune":
     if st.button("メニューに戻る"):
         st.session_state.page = "menu"
         st.rerun()
+
