@@ -55,6 +55,7 @@ dream_questions = [
      "choices": ["強く覚えている", "少し覚えている", "ほとんど覚えていない", "断片的に覚えている"]},
 ]
 
+# --- 都道府県診断 ---
 def show_pref_result():
     answers = st.session_state.answers
     score = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0}
@@ -101,41 +102,15 @@ def show_pref_result():
     result_type = max(score, key=score.get)
     result_text = "、".join(pref_groups[result_type])
 
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .result-box {
-                background-color: #fff7fb;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #ffb6d9;
-                box-shadow: 0 0 10px rgba(255, 182, 217, 0.4);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .result-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #ff69b4;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
-
     st.markdown(f"""
-        <div class="result-title">✨ あなたに合う都道府県 ✨</div>
+### ✨ あなたに合う都道府県 ✨
 
-        あなたにぴったりの地域は…
+あなたにぴったりの地域は…
 
-        <h2>【{result_text}】</h2>
+## 【{result_text}】
 
-        旅行や移住の参考にしてみてね🌸
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe
+旅行や移住の参考にしてみてね🌸
+""")
 
 # --- 適職診断 ---
 def show_job_result():
@@ -194,40 +169,14 @@ def show_job_result():
         "active": "あなたは【アクティブタイプ】✨\n行動力があり、動きのある仕事が向いています。"
     }
 
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .result-box {
-                background-color: #fff7fb;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #ffb6d9;
-                box-shadow: 0 0 10px rgba(255, 182, 217, 0.4);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .result-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #ff69b4;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
-
     st.markdown(f"""
-        <div class="result-title">💼 適職診断の結果 ✨</div>
+### 💼 あなたに向いている仕事タイプ
 
-        <h2>{messages[result_type]}</h2>
+## {messages[result_type]}
 
-        自分の強みを活かしてみてね✨
-    """, unsafe_allow_html=True)
+自分の強みを活かしてみてね✨
+""")
 
-    st.markdown('</div>', unsafe_allow_html=True)
-    # --- デザイン（ここまで） ---
 
 # --- パートナー診断 ---
 def show_partner_result():
@@ -285,143 +234,20 @@ def show_partner_result():
     result_type = max(score, key=score.get)
 
     messages = {
-        "gentle": "あなたに合うのは【優しくて包容力のある人】💞\n安心感をくれるタイプが相性◎",
-        "fun": "あなたに合うのは【明るくて楽しい人】🎉\n一緒に笑って過ごせる関係がぴったり。",
-        "calm": "あなたに合うのは【落ち着いた大人な人】🌿\n穏やかで安定した関係が向いています。",
-        "strong": "あなたに合うのは【頼れる情熱的な人】🔥\n引っ張ってくれるタイプが相性◎"
+        "gentle": "あなたに合うのは【優しくて包容力のある人】\n安心感をくれるタイプが相性◎",
+        "fun": "あなたに合うのは【明るくて楽しい人】\n一緒に笑って過ごせる関係がぴったり。",
+        "calm": "あなたに合うのは【落ち着いた大人な人】\n穏やかで安定した関係が向いています。",
+        "strong": "あなたに合うのは【頼れる情熱的な人】\n引っ張ってくれるタイプが相性◎"
     }
 
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .result-box {
-                background-color: #fff7fb;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #ffb6d9;
-                box-shadow: 0 0 10px rgba(255, 182, 217, 0.4);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .result-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #ff69b4;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
-
     st.markdown(f"""
-        <div class="result-title">💗 パートナー診断の結果 ✨</div>
+### 💗 あなたに合うパートナータイプ
 
-        <h2>{messages[result_type]}</h2>
+## {messages[result_type]}
 
-        恋愛のヒントにしてみてね💗
-    """, unsafe_allow_html=True)
+恋愛のヒントにしてみてね💗
+""")
 
-    st.markdown('</div>', unsafe_allow_html=True)
-    # --- デザイン（ここまで） ---
-
-# --- パートナー診断 ---
-def show_partner_result():
-    answers = st.session_state.answers
-    score = {"gentle": 0, "fun": 0, "calm": 0, "strong": 0}
-
-    if answers[0] == "優しさ":
-        score["gentle"] += 2
-    elif answers[0] == "面白さ":
-        score["fun"] += 2
-    elif answers[0] == "落ち着き":
-        score["calm"] += 2
-    elif answers[0] == "頼もしさ":
-        score["strong"] += 2
-
-    if answers[1] == "カフェでまったり":
-        score["gentle"] += 1
-        score["calm"] += 1
-    elif answers[1] == "アクティブにお出かけ":
-        score["fun"] += 1
-        score["strong"] += 1
-    elif answers[1] == "家でのんびり":
-        score["calm"] += 1
-    elif answers[1] == "美味しいもの巡り":
-        score["gentle"] += 1
-        score["fun"] += 1
-
-    if answers[2] == "誠実さ":
-        score["gentle"] += 1
-    elif answers[2] == "明るさ":
-        score["fun"] += 1
-    elif answers[2] == "知的さ":
-        score["calm"] += 1
-    elif answers[2] == "情熱":
-        score["strong"] += 1
-
-    if answers[3] == "尽くすタイプ":
-        score["gentle"] += 1
-    elif answers[3] == "甘えたいタイプ":
-        score["strong"] += 1
-    elif answers[3] == "友達みたいな関係":
-        score["fun"] += 1
-    elif answers[3] == "刺激がほしい":
-        score["strong"] += 1
-
-    if answers[4] == "安定してる":
-        score["calm"] += 1
-    elif answers[4] == "自由で柔軟":
-        score["fun"] += 1
-    elif answers[4] == "一緒に行動したい":
-        score["strong"] += 1
-    elif answers[4] == "お互い自立":
-        score["calm"] += 1
-
-    result_type = max(score, key=score.get)
-
-    messages = {
-        "gentle": "あなたに合うのは【優しくて包容力のある人】💞\n安心感をくれるタイプが相性◎",
-        "fun": "あなたに合うのは【明るくて楽しい人】🎉\n一緒に笑って過ごせる関係がぴったり。",
-        "calm": "あなたに合うのは【落ち着いた大人な人】🌿\n穏やかで安定した関係が向いています。",
-        "strong": "あなたに合うのは【頼れる情熱的な人】🔥\n引っ張ってくれるタイプが相性◎"
-    }
-
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .result-box {
-                background-color: #fff7fb;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #ffb6d9;
-                box-shadow: 0 0 10px rgba(255, 182, 217, 0.4);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .result-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #ff69b4;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
-
-    st.markdown(f"""
-        <div class="result-title">💗 パートナー診断の結果 ✨</div>
-
-        <h2>{messages[result_type]}</h2>
-
-        恋愛のヒントにしてみてね💗
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    # --- デザイン（ここまで） --
 # --- 夢診断 ---
 def show_dream_result():
     answers = st.session_state.answers
@@ -475,46 +301,19 @@ def show_dream_result():
     result_type = max(score, key=score.get)
 
     messages = {
-        "happy": "あなたの夢は【前向きで心が元気なサイン】✨\n良いエネルギーが満ちています🌈",
-        "mystery": "あなたの夢は【直感が冴えているサイン】🔮\n新しい気づきや変化が近づいています。",
-        "fear": "あなたの夢は【不安やストレスのサイン】🌙\n無理をしすぎていないか、少し休んでね。",
-        "sad": "あなたの夢は【心が少し疲れているサイン】💐\n優しい時間を自分にあげてね。"
+        "happy": "あなたの夢は【前向きで心が元気なサイン】\n良いエネルギーが満ちています🌈",
+        "mystery": "あなたの夢は【直感が冴えているサイン】\n新しい気づきや変化が近づいています🔮",
+        "fear": "あなたの夢は【不安やストレスのサイン】\n無理をしすぎていないか、少し休んでね🌙",
+        "sad": "あなたの夢は【心が少し疲れているサイン】\n優しい時間を自分にあげてね💐"
     }
 
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .result-box {
-                background-color: #f7f4ff;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #c9b7ff;
-                box-shadow: 0 0 12px rgba(150, 130, 255, 0.3);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .result-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #8a6bff;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="result-box">', unsafe_allow_html=True)
-
     st.markdown(f"""
-        <div class="result-title">🌙 夢診断の結果 ✨</div>
+### 🌙 あなたの夢のメッセージ
 
-        <h2>{messages[result_type]}</h2>
+## 【{messages[result_type]}】
 
-        夢は心の声だから、少し意識してみると気づきがあるかも。
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    # --- デザイン（ここまで） ---
+夢は心の声だから、少し意識してみると気づきがあるかも。
+""")
 
 # --- 今日の占い ---
 def show_fortune_result():
@@ -551,47 +350,18 @@ def show_fortune_result():
     food = random.choice(lucky_foods)
     action = random.choice(lucky_actions)
 
-    # --- デザイン（ここから） ---
-    st.markdown("""
-        <style>
-            .fortune-box {
-                background-color: #fff8f0;
-                padding: 25px;
-                border-radius: 20px;
-                border: 2px solid #ffd9a8;
-                box-shadow: 0 0 12px rgba(255, 200, 150, 0.4);
-                font-size: 1.2rem;
-                line-height: 1.8;
-            }
-            .fortune-title {
-                font-size: 1.6rem;
-                font-weight: bold;
-                color: #ff9a3c;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<div class="fortune-box">', unsafe_allow_html=True)
-
     st.markdown(f"""
-        <div class="fortune-title">🔮 今日の運勢 ✨</div>
+### 🔮 今日の運勢
 
-        <h2>【{fortune}】</h2>
+## 【{fortune}】
 
-        <ul>
-            <li><b>ラッキーカラー：</b> {color}</li>
-            <li><b>ラッキーアイテム：</b> {item}（{category}）</li>
-            <li><b>ラッキーフード：</b> {food}</li>
-            <li><b>ラッキーアクション：</b> {action}</li>
-        </ul>
+- **ラッキーカラー**：{color}
+- **ラッキーアイテム**：{item}（{category}）
+- **ラッキーフード**：{food}
+- **ラッキーアクション**：{action}
 
-        今日が素敵な一日になりますように ✨🌟
-    """, unsafe_allow_html=True)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    # --- デザイン（ここまで） ---
+今日が素敵な一日になりますように ✨
+""")
 
 # --- 質問画面 ---
 if st.session_state.page == "question":
@@ -612,7 +382,7 @@ if st.session_state.page == "question":
     if st.button("メニューに戻る", key=f"back_{st.session_state.current_question}"):
         st.session_state.page = "menu"
         st.rerun()
-        
+       
 # --- 結果画面 ---
 if st.session_state.page == "result":
     st.title("✨ あなたの結果 ✨")
@@ -629,30 +399,6 @@ if st.session_state.page == "result":
     if st.button("メニューに戻る"):
         st.session_state.page = "menu"
         st.rerun()
-
-# --- 結果画面のデザイン ---
-st.markdown("""
-    <style>
-        .result-box {
-            background-color: #fff7fb;
-            padding: 25px;
-            border-radius: 20px;
-            border: 2px solid #ffb6d9;
-            box-shadow: 0 0 10px rgba(255, 182, 217, 0.4);
-            font-size: 1.2rem;
-            line-height: 1.8;
-        }
-        .result-title {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #ff69b4;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown('<div class="result-box">', unsafe_allow_html=True)
 
 # --- 今日の占い ---
 if st.session_state.page == "fortune":
@@ -703,5 +449,3 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
-
-
