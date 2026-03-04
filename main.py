@@ -163,10 +163,10 @@ def show_job_result():
     result_type = max(score, key=score.get)
 
     messages = {
-        "creative": "あなたは【クリエイティブタイプ】✨\n自由な発想で新しいものを生み出す仕事が向いています。",
-        "support": "あなたは【サポートタイプ】✨\n人の役に立つ仕事で力を発揮できます。",
-        "steady": "あなたは【安定・コツコツタイプ】✨\n丁寧で正確な作業が得意です。",
-        "active": "あなたは【アクティブタイプ】✨\n行動力があり、動きのある仕事が向いています。"
+        "creative": "【クリエイティブタイプ】✨\n自由な発想で新しいものを生み出す仕事が向いています。",
+        "support": "【サポートタイプ】✨\n人の役に立つ仕事で力を発揮できます。",
+        "steady": "【安定・コツコツタイプ】✨\n丁寧で正確な作業が得意です。",
+        "active": "【アクティブタイプ】✨\n行動力があり、動きのある仕事が向いています。"
     }
 
     st.markdown(f"""
@@ -379,9 +379,11 @@ if st.session_state.page == "question":
         else:
             st.rerun()
 
-    if st.button("メニューに戻る", key=f"back_{st.session_state.current_question}"):
-        st.session_state.page = "menu"
-        st.rerun()
+    # ★ ここを追加（質問画面のときだけ表示）
+    if st.session_state.page == "question":
+        if st.button("メニューに戻る", key=f"back_{st.session_state.current_question}"):
+            st.session_state.page = "menu"
+            st.rerun()
        
 # --- 結果画面 ---
 if st.session_state.page == "result":
@@ -395,6 +397,11 @@ if st.session_state.page == "result":
         show_partner_result()
     elif st.session_state.current_theme == "dream":
         show_dream_result()
+
+
+    if st.button("メニューに戻る"):
+        st.session_state.page = "menu"
+        st.rerun()
 
 # --- 今日の占い ---
 if st.session_state.page == "fortune":
@@ -445,4 +452,5 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
 
