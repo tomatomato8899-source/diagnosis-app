@@ -234,10 +234,10 @@ def show_partner_result():
     result_type = max(score, key=score.get)
 
     messages = {
-        "gentle": "あなたに合うのは【優しくて包容力のある人】\n安心感をくれるタイプが相性◎",
-        "fun": "あなたに合うのは【明るくて楽しい人】\n一緒に笑って過ごせる関係がぴったり。",
-        "calm": "あなたに合うのは【落ち着いた大人な人】\n穏やかで安定した関係が向いています。",
-        "strong": "あなたに合うのは【頼れる情熱的な人】\n引っ張ってくれるタイプが相性◎"
+        "gentle": "【優しくて包容力のある人】\n安心感をくれるタイプが相性◎",
+        "fun": "【明るくて楽しい人】\n一緒に笑って過ごせる関係がぴったり。",
+        "calm": "【落ち着いた大人な人】\n穏やかで安定した関係が向いています。",
+        "strong": "【頼れる情熱的な人】\n引っ張ってくれるタイプが相性◎"
     }
 
     st.markdown(f"""
@@ -452,6 +452,7 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
 
 
 
