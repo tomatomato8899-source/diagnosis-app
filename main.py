@@ -301,10 +301,10 @@ def show_dream_result():
     result_type = max(score, key=score.get)
 
     messages = {
-        "happy": "あなたの夢は【前向きで心が元気なサイン】\n良いエネルギーが満ちています🌈",
-        "mystery": "あなたの夢は【直感が冴えているサイン】\n新しい気づきや変化が近づいています🔮",
-        "fear": "あなたの夢は【不安やストレスのサイン】\n無理をしすぎていないか、少し休んでね🌙",
-        "sad": "あなたの夢は【心が少し疲れているサイン】\n優しい時間を自分にあげてね💐"
+        "happy": "【前向きで心が元気なサイン】\n良いエネルギーが満ちています🌈",
+        "mystery": "【直感が冴えているサイン】\n新しい気づきや変化が近づいています🔮",
+        "fear": "【不安やストレスのサイン】\n無理をしすぎていないか、少し休んでね🌙",
+        "sad": "【心が少し疲れているサイン】\n優しい時間を自分にあげてね💐"
     }
 
     st.markdown(f"""
@@ -385,7 +385,7 @@ if st.session_state.page == "question":
        
 # --- 結果画面 ---
 if st.session_state.page == "result":
-    st.title("✨ あなたの結果 ✨")
+    st.title("✨ 結果 ✨")
 
     if st.session_state.current_theme == "job":
         show_job_result()
@@ -395,10 +395,6 @@ if st.session_state.page == "result":
         show_partner_result()
     elif st.session_state.current_theme == "dream":
         show_dream_result()
-
-    if st.button("メニューに戻る"):
-        st.session_state.page = "menu"
-        st.rerun()
 
 # --- 今日の占い ---
 if st.session_state.page == "fortune":
@@ -449,3 +445,4 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
