@@ -185,4 +185,173 @@ def show_partner_result():
 # --- 夢診断 ---
 def show_dream_result():
     answers = st.session_state.answers
-    score = {"happy": 0, "mystery":
+    score = {"happy": 0, "mystery": 0, "fear": 0, "sad": 0}
+
+    if answers[0] == "楽しい":
+        score["happy"] += 2
+    elif answers[0] == "不思議":
+        score["mystery"] += 2
+    elif answers[0] == "怖い":
+        score["fear"] += 2
+    elif answers[0] == "悲しい":
+        score["sad"] += 2
+
+    if answers[1] == "家":
+        score["happy"] += 1
+    elif answers[1] == "学校・職場":
+        score["sad"] += 1
+    elif answers[1] == "知らない場所":
+        score["mystery"] += 1
+    elif answers[1] == "自然の中":
+        score["happy"] += 1
+
+    if answers[2] == "家族":
+        score["happy"] += 1
+    elif answers[2] == "友達":
+        score["happy"] += 1
+    elif answers[2] == "知らない人":
+        score["mystery"] += 1
+    elif answers[2] == "誰もいない":
+        score["sad"] += 1
+
+    if answers[3] == "安心していた":
+        score["happy"] += 1
+    elif answers[3] == "焦っていた":
+        score["fear"] += 1
+    elif answers[3] == "ワクワクしていた":
+        score["happy"] += 1
+    elif answers[3] == "ぼんやりしていた":
+        score["mystery"] += 1
+
+    if answers[4] == "強く覚えている":
+        score["mystery"] += 1
+    elif answers[4] == "少し覚えている":
+        score["happy"] += 1
+    elif answers[4] == "ほとんど覚えていない":
+        score["sad"] += 1
+    elif answers[4] == "断片的に覚えている":
+        score["fear"] += 1
+
+    result_type = max(score, key=score.get)
+
+    messages = {
+        "happy": "あなたの夢は【前向きで心が元気なサイン】\n良いエネルギーが満ちています🌈",
+        "mystery": "あなたの夢は【直感が冴えているサイン】\n新しい気づきや変化が近づいています🔮",
+        "fear": "あなたの夢は【不安やストレスのサイン】\n無理をしすぎていないか、少し休んでね🌙",
+        "sad": "あなたの夢は【心が少し疲れているサイン】\n優しい時間を自分にあげてね💐"
+    }
+
+    st.markdown(f"""
+### 🌙 あなたの夢のメッセージ
+
+## 【{messages[result_type]}】
+
+夢は心の声だから、少し意識してみると気づきがあるかも。
+""")
+
+# --- 今日の占い ---
+def show_fortune_result():
+    fortunes = [
+        "最高の運勢", "とても良い", "良い", "普通", "注意が必要", "波乱の予感",
+        "チャンス到来", "直感が冴える日", "ゆっくり休む日", "新しい出会いの予感"
+    ]
+
+    colors = [
+        "赤", "青", "黄色", "緑", "紫", "ピンク", "白", "黒",
+        "ゴールド", "シルバー"
+    ]
+
+    items = {
+        "小物": ["ハンカチ", "スマホ", "アクセサリー", "腕時計", "鍵", "メガネ", "イヤホン"],
+        "飲み物": ["カフェラテ", "抹茶ラテ", "紅茶", "緑茶", "ココア", "炭酸水", "レモネード"],
+        "お菓子": ["チョコレート", "クッキー", "グミ", "キャンディ", "ポッキー", "マカロン"]
+    }
+
+    lucky_foods = [
+        "オムライス", "カレーライス", "ハンバーグ", "パスタ",
+        "寿司", "ラーメン", "サンドイッチ", "おにぎり", "フルーツ", "ヨーグルト"
+    ]
+
+    lucky_actions = [
+        "深呼吸をする", "散歩に出かける", "お気に入りの音楽を聴く",
+        "ストレッチをする"
+    ]
+
+    fortune = random.choice(fortunes)
+    color = random.choice(colors)
+    category = random.choice(list(items.keys()))
+    item = random.choice(items[category])
+    food = random.choice(lucky_foods)
+    action = random.choice(lucky_actions)
+
+    st.markdown(f"""
+### 🔮 今日の運勢
+
+## 【{fortune}】
+
+- **ラッキーカラー**：{color}
+- **ラッキーアイテム**：{item}（{category}）
+- **ラッキーフード**：{food}
+- **ラッキーアクション**：{action}
+
+今日が素敵な一日になりますように ✨
+""")
+
+# --- 質問画面 ---
+if st.session_state.page == "question":
+    q = st.session_state.current_questions[st.session_state.current_question]
+    st.write(f"**Q{st.session_state.current_question+1}. {q['q']}**")
+
+    choice = st.radio("選択肢を選んでね", q["choices"])
+
+    if st.button("次へ"):
+        st.session_state.answers.append(choice)
+        st.session_state.current_question += 1
+
+        if st.session_state.current_question >= len(st.session_state.current_questions):
+            st.session_state.page = "result"
+        else:
+            st.rerun()
+
+    if st.button("メニューに戻る"):
+        st.session_state.page = "menu"
+        st.rerun()
+
+# --- 結果画面 ---
+if st.session_state.page == "result":
+    st.title("✨ あなたの結果 ✨")
+
+    if st.session_state.current_theme == "job":
+        show_job_result()
+    elif st.session_state.current_theme == "pref":
+        show_pref_result()
+    elif st.session_state.current_theme == "partner":
+        show_partner_result()
+    elif st.session_state.current_theme == "dream":
+        show_dream_result()
+
+    if st.button("メニューに戻る"):
+        st.session_state.page = "menu"
+        st.rerun()
+
+# --- 今日の占い ---
+if st.session_state.page == "fortune":
+    st.title("🔮 今日の占い")
+    show_fortune_result()
+
+    if st.button("メニューに戻る"):
+        st.session_state.page = "menu"
+        st.rerun()
+
+# --- メニュー画面 ---
+if st.session_state.page == "menu":
+    st.title("✨ 診断アプリ ✨")
+    st.write("テーマを選んでね")
+
+    if st.button("① 適職診断"):
+        st.session_state.current_theme = "job"
+        st.session_state.current_questions = job_questions
+        st.session_state.current_question = 0
+        st.session_state.answers = []
+        st.session_state.page =
+
