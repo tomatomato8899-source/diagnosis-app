@@ -368,9 +368,9 @@ if st.session_state.page == "question":
     q = st.session_state.current_questions[st.session_state.current_question]
     st.write(f"**Q{st.session_state.current_question+1}. {q['q']}**")
 
-    choice = st.radio("選択肢を選んでね", q["choices"])
+    choice = st.radio("選択肢を選んでね", q["choices"], key=f"radio_{st.session_state.current_question}")
 
-    if st.button("次へ"):
+    if st.button("次へ", key=f"next_{st.session_state.current_question}"):
         st.session_state.answers.append(choice)
         st.session_state.current_question += 1
 
@@ -379,10 +379,10 @@ if st.session_state.page == "question":
         else:
             st.rerun()
 
-    if st.button("メニューに戻る"):
+    if st.button("メニューに戻る", key=f"back_{st.session_state.current_question}"):
         st.session_state.page = "menu"
         st.rerun()
-
+        
 # --- 結果画面 ---
 if st.session_state.page == "result":
     st.title("✨ あなたの結果 ✨")
@@ -449,3 +449,4 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
