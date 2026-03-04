@@ -405,7 +405,7 @@ if st.session_state.page == "result":
 
 # --- 今日の占い ---
 if st.session_state.page == "fortune":
-    st.title("🔮 今日の占い")
+    st.title("✨ 今日の占い ✨")
     show_fortune_result()
 
     if st.button("メニューに戻る"):
@@ -452,6 +452,7 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
 
 
 
