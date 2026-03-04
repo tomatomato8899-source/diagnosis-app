@@ -112,6 +112,72 @@ def show_pref_result():
 旅行や移住の参考にしてみてね🌸
 """)
 
+# --- 適職診断 ---
+def show_job_result():
+    answers = st.session_state.answers
+
+    score = {"creative": 0, "support": 0, "steady": 0, "active": 0}
+
+    # 質問1
+    if answers[0] == "クリエイティブ系":
+        score["creative"] += 2
+    elif answers[0] == "対人支援系":
+        score["support"] += 2
+    elif answers[0] == "コツコツ作業系":
+        score["steady"] += 2
+
+    # 質問2
+    if answers[1] == "論理・分析タイプ":
+        score["steady"] += 1
+    elif answers[1] == "社交・行動タイプ":
+        score["active"] += 1
+    elif answers[1] == "対人・サポートタイプ":
+        score["support"] += 1
+    elif answers[1] == "管理・実務タイプ":
+        score["steady"] += 1
+
+    # 質問3
+    if answers[2] == "ビジネス・スキル系":
+        score["active"] += 1
+    elif answers[2] == "コミュニケーション・性格系":
+        score["support"] += 1
+    elif answers[2] == "日常生活・その他":
+        score["steady"] += 1
+
+    # 質問4
+    if answers[3] == "大勢の前":
+        score["creative"] += 1
+    elif answers[3] == "細かい作業":
+        score["active"] += 1
+
+    # 質問5
+    if answers[4] == "給与":
+        score["active"] += 1
+    elif answers[4] == "時間":
+        score["steady"] += 1
+    elif answers[4] == "やりがい":
+        score["creative"] += 1
+    elif answers[4] == "安定性":
+        score["support"] += 1
+
+    result_type = max(score, key=score.get)
+
+    messages = {
+        "creative": "あなたは【クリエイティブタイプ】✨\n自由な発想で新しいものを生み出す仕事が向いています。",
+        "support": "あなたは【サポートタイプ】✨\n人の役に立つ仕事で力を発揮できます。",
+        "steady": "あなたは【安定・コツコツタイプ】✨\n丁寧で正確な作業が得意です。",
+        "active": "あなたは【アクティブタイプ】✨\n行動力があり、動きのある仕事が向いています。"
+    }
+
+    st.markdown(f"""
+### 💼 あなたに向いている仕事タイプ
+
+## {messages[result_type]}
+
+自分の強みを活かしてみてね✨
+""")
+
+
 # --- パートナー診断 ---
 def show_partner_result():
     answers = st.session_state.answers
@@ -353,5 +419,33 @@ if st.session_state.page == "menu":
         st.session_state.current_questions = job_questions
         st.session_state.current_question = 0
         st.session_state.answers = []
-        st.session_state.page =
+        st.session_state.page = "question"
+        st.rerun()
 
+    if st.button("② 都道府県診断"):
+        st.session_state.current_theme = "pref"
+        st.session_state.current_questions = pref_questions
+        st.session_state.current_question = 0
+        st.session_state.answers = []
+        st.session_state.page = "question"
+        st.rerun()
+
+    if st.button("③ パートナー診断"):
+        st.session_state.current_theme = "partner"
+        st.session_state.current_questions = partner_questions
+        st.session_state.current_question = 0
+        st.session_state.answers = []
+        st.session_state.page = "question"
+        st.rerun()
+
+    if st.button("④ 夢診断"):
+        st.session_state.current_theme = "dream"
+        st.session_state.current_questions = dream_questions
+        st.session_state.current_question = 0
+        st.session_state.answers = []
+        st.session_state.page = "question"
+        st.rerun()
+
+    if st.button("⑤ 今日の占い"):
+        st.session_state.page = "fortune"
+        st.rerun()
