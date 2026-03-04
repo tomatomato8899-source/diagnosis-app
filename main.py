@@ -54,9 +54,10 @@ dream_questions = [
     {"q": "夢の印象は？",
      "choices": ["強く覚えている", "少し覚えている", "ほとんど覚えていない", "断片的に覚えている"]},
 ]
+
+# --- 都道府県診断 ---
 def show_pref_result():
     answers = st.session_state.answers
-
     score = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0}
 
     if answers[0] == "都会":
@@ -99,8 +100,7 @@ def show_pref_result():
     }
 
     result_type = max(score, key=score.get)
-    result_list = pref_groups[result_type]
-    result_text = "、".join(result_list)
+    result_text = "、".join(pref_groups[result_type])
 
     st.markdown(f"""
 ### ✨ あなたに合う都道府県 ✨
@@ -112,276 +112,77 @@ def show_pref_result():
 旅行や移住の参考にしてみてね🌸
 """)
 
-if st.session_state.page == "result":
-    st.title("✨ あなたの結果 ✨")
-
-    if st.session_state.current_theme == "pref":
-        show_pref_result()
-
-def show_fortune_result():
-    fortunes = [
-        "最高の運勢", "とても良い", "良い", "普通", "注意が必要", "波乱の予感",
-        "チャンス到来", "直感が冴える日", "ゆっくり休む日", "新しい出会いの予感"
-    ]
-
-    colors = [
-        "赤", "青", "黄色", "緑", "紫", "ピンク", "白", "黒",
-        "ゴールド", "シルバー"
-    ]
-
-    items = {
-        "小物": ["ハンカチ", "スマホ", "アクセサリー", "腕時計", "鍵", "メガネ", "イヤホン"],
-        "飲み物": ["カフェラテ", "抹茶ラテ", "紅茶", "緑茶", "ココア", "炭酸水", "レモネード"],
-        "お菓子": ["チョコレート", "クッキー", "グミ", "キャンディ", "ポッキー", "マカロン"]
-    }
-
-    lucky_foods = [
-        "オムライス", "カレーライス", "ハンバーグ", "パスタ",
-        "寿司", "ラーメン", "サンドイッチ", "おにぎり", "フルーツ", "ヨーグルト"
-    ]
-
-    lucky_actions = [
-        "深呼吸をする", "散歩に出かける", "お気に入りの音楽を聴く",
-        "ストレッチをする"
-    ]
-
-    # ランダム選択
-    fortune = random.choice(fortunes)
-    color = random.choice(colors)
-
-    # カテゴリからランダム → その中からランダム
-    category = random.choice(list(items.keys()))
-    item = random.choice(items[category])
-
-    food = random.choice(lucky_foods)
-    action = random.choice(lucky_actions)
-
-    st.markdown(f"""
-### 🔮 今日の運勢
-
-## 【{fortune}】
-
-- **ラッキーカラー**：{color}  
-- **ラッキーアイテム**：{item}（{category}）  
-- **ラッキーフード**：{food}  
-- **ラッキーアクション**：{action}  
-
-今日が、やさしくて楽しい一日になりますように ✨
-""")
-
-def show_dream_result():
+# --- パートナー診断 ---
+def show_partner_result():
     answers = st.session_state.answers
+    score = {"gentle": 0, "fun": 0, "calm": 0, "strong": 0}
 
-    score = {"happy": 0, "mystery": 0, "fear": 0, "sad": 0}
+    if answers[0] == "優しさ":
+        score["gentle"] += 2
+    elif answers[0] == "面白さ":
+        score["fun"] += 2
+    elif answers[0] == "落ち着き":
+        score["calm"] += 2
+    elif answers[0] == "頼もしさ":
+        score["strong"] += 2
 
-    # 質問1：雰囲気
-    if answers[0] == "楽しい":
-        score["happy"] += 2
-    elif answers[0] == "不思議":
-        score["mystery"] += 2
-    elif answers[0] == "怖い":
-        score["fear"] += 2
-    elif answers[0] == "悲しい":
-        score["sad"] += 2
+    if answers[1] == "カフェでまったり":
+        score["gentle"] += 1
+        score["calm"] += 1
+    elif answers[1] == "アクティブにお出かけ":
+        score["fun"] += 1
+        score["strong"] += 1
+    elif answers[1] == "家でのんびり":
+        score["calm"] += 1
+    elif answers[1] == "美味しいもの巡り":
+        score["gentle"] += 1
+        score["fun"] += 1
 
-    # 質問2：場所
-    if answers[1] == "家":
-        score["happy"] += 1
-    elif answers[1] == "学校・職場":
-        score["sad"] += 1
-    elif answers[1] == "知らない場所":
-        score["mystery"] += 1
-    elif answers[1] == "自然の中":
-        score["happy"] += 1
+    if answers[2] == "誠実さ":
+        score["gentle"] += 1
+    elif answers[2] == "明るさ":
+        score["fun"] += 1
+    elif answers[2] == "知的さ":
+        score["calm"] += 1
+    elif answers[2] == "情熱":
+        score["strong"] += 1
 
-    # 質問3：人物
-    if answers[2] == "家族":
-        score["happy"] += 1
-    elif answers[2] == "友達":
-        score["happy"] += 1
-    elif answers[2] == "知らない人":
-        score["mystery"] += 1
-    elif answers[2] == "誰もいない":
-        score["sad"] += 1
+    if answers[3] == "尽くすタイプ":
+        score["gentle"] += 1
+    elif answers[3] == "甘えたいタイプ":
+        score["strong"] += 1
+    elif answers[3] == "友達みたいな関係":
+        score["fun"] += 1
+    elif answers[3] == "刺激がほしい":
+        score["strong"] += 1
 
-    # 質問4：気持ち
-    if answers[3] == "安心していた":
-        score["happy"] += 1
-    elif answers[3] == "焦っていた":
-        score["fear"] += 1
-    elif answers[3] == "ワクワクしていた":
-        score["happy"] += 1
-    elif answers[3] == "ぼんやりしていた":
-        score["mystery"] += 1
-
-    # 質問5：印象
-    if answers[4] == "強く覚えている":
-        score["mystery"] += 1
-    elif answers[4] == "少し覚えている":
-        score["happy"] += 1
-    elif answers[4] == "ほとんど覚えていない":
-        score["sad"] += 1
-    elif answers[4] == "断片的に覚えている":
-        score["fear"] += 1
+    if answers[4] == "安定してる":
+        score["calm"] += 1
+    elif answers[4] == "自由で柔軟":
+        score["fun"] += 1
+    elif answers[4] == "一緒に行動したい":
+        score["strong"] += 1
+    elif answers[4] == "お互い自立":
+        score["calm"] += 1
 
     result_type = max(score, key=score.get)
 
     messages = {
-        "happy": "あなたの夢は【前向きで心が元気なサイン】\n良いエネルギーが満ちています🌈",
-        "mystery": "あなたの夢は【直感が冴えているサイン】\n新しい気づきや変化が近づいています🔮",
-        "fear": "あなたの夢は【不安やストレスのサイン】\n無理をしすぎていないか、少し休んでね🌙",
-        "sad": "あなたの夢は【心が少し疲れているサイン】\n優しい時間を自分にあげてね💐"
+        "gentle": "あなたに合うのは【優しくて包容力のある人】\n安心感をくれるタイプが相性◎",
+        "fun": "あなたに合うのは【明るくて楽しい人】\n一緒に笑って過ごせる関係がぴったり。",
+        "calm": "あなたに合うのは【落ち着いた大人な人】\n穏やかで安定した関係が向いています。",
+        "strong": "あなたに合うのは【頼れる情熱的な人】\n引っ張ってくれるタイプが相性◎"
     }
 
     st.markdown(f"""
-### 🌙 あなたの夢のメッセージ
+### 💗 あなたに合うパートナータイプ
 
-あなたの夢が伝えているのは…
+## {messages[result_type]}
 
-## 【{messages[result_type]}】
-
-夢は心の声だから、少し意識してみると気づきがあるかも。
+恋愛のヒントにしてみてね💗
 """)
 
-
-
-# --- メニュー画面 ---
-if st.session_state.page == "menu":
-    st.title("✨ 診断アプリ ✨")
-    st.write("テーマを選んでね")
-
-    if st.button("① 適職診断"):
-        st.session_state.current_theme = "job"
-        st.session_state.current_questions = job_questions
-        st.session_state.current_question = 0
-        st.session_state.answers = []
-        st.session_state.page = "question"
-
-    if st.button("② 都道府県診断"):
-        st.session_state.current_theme = "pref"
-        st.session_state.current_questions = pref_questions
-        st.session_state.current_question = 0
-        st.session_state.answers = []
-        st.session_state.page = "question"
-
-    if st.button("③ 理想のパートナー診断"):
-        st.session_state.current_theme = "partner"
-        st.session_state.current_questions = partner_questions
-        st.session_state.current_question = 0
-        st.session_state.answers = []
-        st.session_state.page = "question"
-
-    if st.button("④ 今日の占い"):
-        st.session_state.page = "fortune"
-
-    if st.button("⑤ 夢のメッセージ"):
-        st.session_state.current_theme = "dream"
-        st.session_state.current_questions = dream_questions
-        st.session_state.current_question = 0
-        st.session_state.answers = []
-        st.session_state.page = "question"
-
-# --- 質問画面 ---
-if st.session_state.page == "question":
-    q = st.session_state.current_questions[st.session_state.current_question]
-    st.write(f"**Q{st.session_state.current_question+1}. {q['q']}**")
-
-    choice = st.radio("選択肢を選んでね", q["choices"])
-
-    if st.button("次へ"):
-        st.session_state.answers.append(choice)
-        st.session_state.current_question += 1
-
-        if st.session_state.current_question >= len(st.session_state.current_questions):
-            st.session_state.page = "result"
-        else:
-            st.rerun()
-
-    if st.button("メニューに戻る"):
-        st.session_state.page = "menu"
-        st.rerun()
-
-# --- 結果ロジック ---
-def show_job_result():
+# --- 夢診断 ---
+def show_dream_result():
     answers = st.session_state.answers
-    scores = {"creative": 0, "support": 0, "steady": 0, "active": 0}
-
-    if answers[0] == "クリエイティブ系":
-        scores["creative"] += 2
-    elif answers[0] == "対人支援系":
-        scores["support"] += 2
-    elif answers[0] == "コツコツ作業系":
-        scores["steady"] += 2
-
-    if answers[1] == "論理・分析タイプ":
-        scores["steady"] += 1
-    elif answers[1] == "社交・行動タイプ":
-        scores["active"] += 1
-    elif answers[1] == "対人・サポートタイプ":
-        scores["support"] += 1
-    elif answers[1] == "管理・実務タイプ":
-        scores["steady"] += 1
-
-    if answers[2] == "ビジネス・スキル系":
-        scores["active"] += 1
-    elif answers[2] == "コミュニケーション・性格系":
-        scores["support"] += 1
-    elif answers[2] == "日常生活・その他":
-        scores["steady"] += 1
-
-    if answers[3] == "大勢の前":
-        scores["creative"] += 1
-        scores["steady"] += 1
-    elif answers[3] == "細かい作業":
-        scores["active"] += 1
-        scores["creative"] += 1
-
-    if answers[4] == "給与":
-        scores["active"] += 1
-    elif answers[4] == "時間":
-        scores["steady"] += 1
-    elif answers[4] == "やりがい":
-        scores["creative"] += 1
-        scores["support"] += 1
-    elif answers[4] == "安定性":
-        scores["steady"] += 1
-
-    result_type = max(scores, key=scores.get)
-
-    messages = {
-        "creative": "あなたは【クリエイティブタイプ】\n自由な発想や表現力を活かす仕事が向いています。",
-        "support": "あなたは【サポートタイプ】\n人の役に立つことに喜びを感じるタイプです。",
-        "steady": "あなたは【コツコツ実務タイプ】\n安定・正確さ・継続力が強みです。",
-        "active": "あなたは【行動・社交タイプ】\n行動力とコミュ力が武器です。",
-    }
-
-    st.markdown(messages[result_type])
-
-# --- 結果画面 ---
-if st.session_state.page == "result":
-    st.title("✨ あなたの結果 ✨")
-
-  if st.session_state.current_theme == "job":
-    show_job_result()
-
-elif st.session_state.current_theme == "pref":
-    show_pref_result()
-
-elif st.session_state.current_theme == "partner":
-    show_partner_result()
-
-elif st.session_state.current_theme == "dream":
-    show_dream_result()
-    
-    if st.button("メニューに戻る"):
-        st.session_state.page = "menu"
-        st.rerun()
-
-# --- 今日の占い ---
-if st.session_state.page == "fortune":
-    st.title("🔮 今日の占い")
-    show_fortune_result()
-
-    if st.button("メニューに戻る"):
-        st.session_state.page = "menu"
-        st.rerun()
+    score = {"happy": 0, "mystery":
