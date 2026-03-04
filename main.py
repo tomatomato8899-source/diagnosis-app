@@ -310,7 +310,7 @@ def show_dream_result():
     st.markdown(f"""
 ### 🌙 あなたの夢のメッセージ
 
-## 【{messages[result_type]}】
+## {messages[result_type]}
 
 夢は心の声だから、少し意識してみると気づきがあるかも。
 """)
@@ -452,5 +452,6 @@ if st.session_state.page == "menu":
     if st.button("⑤ 今日の占い"):
         st.session_state.page = "fortune"
         st.rerun()
+
 
 
